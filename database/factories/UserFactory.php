@@ -28,7 +28,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => $email,
             'password' => Hash::make($email),
-            'role_id' => fake()->randomElement([1, 2]),
+            'role' => fake()->randomElement(['admin', 'employee']),
                 
         ];
     }
