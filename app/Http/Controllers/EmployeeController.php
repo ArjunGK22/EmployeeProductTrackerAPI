@@ -25,7 +25,10 @@ class EmployeeController extends Controller
             'phone' => 'required',
             'date_of_birth' => 'required',
         ]);
-        return Employee::create($request->all());
+        Employee::create($request->all());
+
+        return response()->json(['message' => 'Employee Created Successfully'], 404);
+
     }
 
     /**

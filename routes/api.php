@@ -27,7 +27,7 @@ Route::get('/transactions/issues', [ProductIssueReturnController::class, 'index'
 
 
 /* Employee */
-Route::get('/employee', [EmployeeController::class, 'index']);
+Route::get('/employee', [EmployeeController::class, 'index']); 
 Route::post('/employee', [EmployeeController::class, 'store']);
 Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
 Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
