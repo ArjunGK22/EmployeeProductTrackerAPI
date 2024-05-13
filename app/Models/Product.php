@@ -15,8 +15,18 @@ class Product extends Model
         'price'
     ];
 
-    public function transactions()
+    // public function transactions()
+    // {
+    //     return $this->hasMany(Transaction::class);
+    // }
+
+    public function transaction__products()
     {
-        return $this->belongsToMany(Transaction::class)->withPivot('quantity');
+        return $this->hasMany(Transaction_Product::class);
+    }
+
+     public function transactions()
+    {
+        return $this->belongsToMany(Transaction::class, 'transaction__products');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductIssueReturnController;
 use App\Http\Controllers\UserController;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -19,7 +20,6 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::resource('products', ProductController::class);
 
-// Route::post('/products', [ProductController::class, 'store']); //store new product
-// Route::post('/products/{id}', [ProductController::class, 'store']); //update product
-// Route::post('/products/{id}', [ProductController::class, 'store']); //update product
+Route::post('/transactions/issue', [ProductIssueReturnController::class, 'issue']); //store new product
+Route::get('/transactions/issues', [ProductIssueReturnController::class, 'index']); //store new product
 
