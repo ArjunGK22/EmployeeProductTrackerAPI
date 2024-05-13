@@ -24,6 +24,7 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:employees',
             'phone' => 'required',
             'date_of_birth' => 'required',
+            'role' => 'required',
         ]);
         return Employee::create($request->all());
     }
@@ -58,6 +59,7 @@ class EmployeeController extends Controller
             'email' => 'required|email|unique:employees,email,'.$employee->id,
             'phone' => 'required',
             'date_of_birth' => 'required',
+            'role' => 'required',
         ]);
     
         $employee->update($request->all());

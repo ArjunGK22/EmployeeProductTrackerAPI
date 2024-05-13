@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->foreignId('role_id')->constrained()->onDelete('cascade');
+            $table->enum('role', ['admin', 'employee']);
+            $table->timestamps();
+
+            
         });
     }
 
