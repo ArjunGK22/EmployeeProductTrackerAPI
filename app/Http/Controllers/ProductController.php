@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Products.
      */
     public function index()
     {
-        //
+        $products = Product::all();
+
+        // return dd($products);
+
+        return response()->json($products, 201);
     }
 
     /**
@@ -24,11 +30,39 @@ class ProductController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new product.
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            //validate the request
+            $product_validator = Validator::make($request->all(), [
+                'productname' => 'required',
+                'price' => 'required|numeric',
+                'quantity' => 'required|integer'
+            ]);
+
+            //if validation fails
+            if ($product_validator->fails()) {
+
+                return response()->json([
+                    'status' => 422,
+                    'errors' => $product_validator->messages()
+                ], 433);
+            } else {
+
+                Product::create($request->all());
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Product Created Successfully'
+                ], 201);
+            }
+        } catch (Exception $e) {
+
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -36,8 +70,16 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        try {
+            if ($product)
+                return response()->json($product, 200);
+            else
+                return response()->json(['message' => 'No Product Found'], 404);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -52,7 +94,31 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+
+        try {
+            //validate the request
+            $product_validator = Validator::make($request->all(), [
+                'productname' => 'string',
+                'price' => 'numeric',
+                'quantity' => 'integer'
+            ]);
+
+            if ($product_validator->fails()) {
+
+                return response()->json([
+                    'status' => 422,
+                    'errors' => $product_validator->messages()
+                ], 433);
+            } else {
+                $product->update($request->all()); //update the product
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Product Updated Successfully'
+                ], 201);
+            }
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -60,6 +126,15 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        try {
+            $product->delete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Product Deleted Successfully'
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json(['message' => "Error Deleting Product! Please try later"], 500);
+        }
     }
 }

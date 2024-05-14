@@ -26,7 +26,10 @@ class EmployeeController extends Controller
             'date_of_birth' => 'required',
             'role' => 'required',
         ]);
-        return Employee::create($request->all());
+        Employee::create($request->all());
+
+        return response()->json(['message' => 'Employee Created Successfully'], 404);
+
     }
 
     /**
