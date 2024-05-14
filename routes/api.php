@@ -13,9 +13,10 @@ use App\Http\Controllers\EmployeeController;
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('/auth/login', [UserController::class, 'index']);
+    Route::post('/auth/login', [AuthController::class, 'login']);
 });
 
-Route::post('/auth/login', [AuthController::class, 'login']);
+
 
 //Product Management Endpoints (Admin)
 
