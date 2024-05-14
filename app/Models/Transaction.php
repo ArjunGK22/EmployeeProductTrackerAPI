@@ -11,9 +11,10 @@ class Transaction extends Model
 
     protected $guarded = [];
 
+    //doubt
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Employee::class);
     }
 
     // Define the many-to-many relationship with Product through TransactionProduct

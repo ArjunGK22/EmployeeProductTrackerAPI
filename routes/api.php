@@ -8,6 +8,8 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\PDFGenerationController;
+use Codedge\Fpdf\Fpdf\Fpdf;
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -16,6 +18,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/auth/login', [AuthController::class, 'login']);
 });
 
+// app/Http/routes.php | app/routes/web.php
+
+Route::get('/',[PDFGenerationController::class,'generatePDF']);
+
 
 
 //Product Management Endpoints (Admin)
@@ -23,7 +29,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 Route::resource('products', ProductController::class);
 
 Route::post('/transactions/issue', [ProductIssueReturnController::class, 'issue']); //store new product
-Route::get('/transactions/issues', [ProductIssueReturnController::class, 'index']); //store new product
+Route::get('/transactions/issues/{id}', [ProductIssueReturnController::class, 'index']); //store new product
 
 
 

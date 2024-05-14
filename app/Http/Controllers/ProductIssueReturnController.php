@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class ProductIssueReturnController extends Controller
 {
-    public function index()
+    public function index($id)
     {
-        $transactions = Transaction::with('products')->get();
+        $transaction = Transaction::with(['user', 'products'])->findOrFail($id);
 
-        return $transactions;
+        return $transaction;
     }
 
     public function issue(Request $request)
