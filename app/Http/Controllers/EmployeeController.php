@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Models\Employee;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */
