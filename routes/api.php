@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeExportController;
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -33,3 +34,6 @@ Route::post('/employee', [EmployeeController::class, 'store']);
 Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
 Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
 Route::delete('/employee/{employee}', [EmployeeController::class, 'destroy']);
+
+//excel
+Route::get('/employees/export', [EmployeeExportController::class, 'export']);
