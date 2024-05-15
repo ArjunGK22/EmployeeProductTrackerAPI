@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Models\Employee;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      */
@@ -22,6 +24,7 @@ class EmployeeController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:employees',
+            'password' => 'required',
             'phone' => 'required',
             'date_of_birth' => 'required',
             'role' => 'required',
@@ -60,6 +63,7 @@ class EmployeeController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:employees,email,'.$employee->id,
+            'password' => 'required',
             'phone' => 'required',
             'date_of_birth' => 'required',
             'role' => 'required',

@@ -12,6 +12,7 @@ use App\Http\Controllers\PDFGenerationController;
 use App\Http\Controllers\TransactionController;
 use App\Models\Transaction;
 use Codedge\Fpdf\Fpdf\Fpdf;
+use App\Http\Controllers\EmployeeExportController;
 
 Route::get('/auth/login', [UserController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login']);
@@ -45,3 +46,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 // app/Http/routes.php | app/routes/web.php
 
+
+//excel
+Route::get('/employees/export', [EmployeeExportController::class, 'export']);
