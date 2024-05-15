@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Models\User;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
@@ -14,7 +15,6 @@ class AuthController extends Controller
     public function login(Request $request)
     {
 
-        //validate the data
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'
@@ -33,7 +33,7 @@ class AuthController extends Controller
 
             if (!$user || !Hash::check($request->password, $user->password)) {
                 return response([
-                    'message' => ['These credentials do not match our records.']
+                    'message' => ['Invalid Credentials']
                 ], 404);
             }
 
@@ -46,18 +46,6 @@ class AuthController extends Controller
         
              return response($response, 201);
         }
-
-
-
-
-
-
-
-        //success
-
-
-
-        //failed
 
     }
 }
