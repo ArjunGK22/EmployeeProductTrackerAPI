@@ -8,9 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     use HasFactory;
-    
-    protected $table = 'employees';
-    
     protected $guarded = [];
 
 
@@ -19,4 +16,5 @@ class Employee extends Model
         return $this->hasMany(Transaction::class);
 
     }
+    
 }

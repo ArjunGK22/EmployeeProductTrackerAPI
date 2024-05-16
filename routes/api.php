@@ -10,6 +10,7 @@ use App\Http\Controllers\PDFGenerationController;
 use App\Http\Controllers\TransactionController;
 
 use App\Http\Controllers\EmployeeExportController;
+use App\Http\Controllers\ProdTransExportController;
 
 Route::get('/auth/login', [UserController::class, 'index']);
 Route::post('/auth/login', [AuthController::class, 'login']); //User Login (admin / employee)
@@ -56,3 +57,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
 //excel
 Route::get('/employees/export', [EmployeeExportController::class, 'export']);
+Route::get('/export/transactions', [ProdTransExportController::class,'exportTransactions']);
+Route::get('/export/products', [ProdTransExportController::class,'exportProducts']);
