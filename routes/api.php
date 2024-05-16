@@ -12,21 +12,28 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\EmployeeExportController;
 
 Route::get('/auth/login', [UserController::class, 'index']);
-Route::post('/auth/login', [AuthController::class, 'login']); //User Login
-Route::post('/auth/logout', [AuthController::class, 'logout']);
+Route::post('/auth/login', [AuthController::class, 'login']); //User Login (admin / employee)
+Route::get('/generatePdf/{id}', [PDFGenerationController::class, 'generatePDF']);
+Route::get('/unauthorized', [UserController::class, 'index']);
+
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    //Logout Route
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
     
-    //Only Admin Access
+    /*
+        ------------------
+        Only Admin Access
+        -----------------
+    */
     Route::group(['middleware' => ['role:admin']], function () {
         
         //Generate PDF based on Transactions
-        Route::get('/', [PDFGenerationController::class, 'generatePDF']);
         
         //Product Management Endpoints (Admin)
         Route::resource('products', ProductController::class);
 
-        //Transaction (Product Issue/Return) Endpoints (Admin)
+        //Transaction (Product Issue/Return) Endpoints
         Route::post('/transactions/issue', [ProductIssueReturnController::class, 'issueProducts']); //store new product
         Route::post('/transactions/return', [ProductIssueReturnController::class, 'returnProducts']); //return product
 
@@ -35,13 +42,16 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
         /* Employee */
         Route::get('/employee', [EmployeeController::class, 'index']);
-        Route::post('/employee', [EmployeeController::class, 'store']);
         Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
         Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
         Route::delete('/employee/{employee}', [EmployeeController::class, 'destroy']);
+        Route::post('/employee', [EmployeeController::class, 'store']);
     });
-
-
+    
+    Route::group(['middleware' => ['role:employee']], function () {
+        
+    });
+    
 });
 
 //excel

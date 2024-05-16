@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employee;
 use App\Models\User;
+use App\Models\Employee;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,6 +16,11 @@ class AuthController extends Controller
     public function logout(Request $request){
 
         $user = $request->user();
+
+        // dd($user);
+
+        // return $user;
+        
         if (!$user || !$user->currentAccessToken()) {
             return response()->json(['message' => 'Token not found or invalid'], 401);
         }
@@ -44,13 +49,13 @@ class AuthController extends Controller
         else{
             $user = User::where('email',$request->email)->first();
 
-            if (!$user || !Hash::check($request->password, $user->password)) {
+            if (!$user || !Hash::check($request->password,  $user->password)) {
                 return response([
                     'message' => ['Invalid Credentials']
                 ], 404);
             }
 
-            $token = $user->createToken('my-app-token')->plainTextToken;
+            $token = $user->createToken('api-token')->plainTextToken;
         
             $response = [
                 'user' => $user,

@@ -9,10 +9,10 @@ class PDFGenerationController extends Controller
 {
     //
 
-    public function generatePDF(\Codedge\Fpdf\Fpdf\Fpdf $pdf)
+    public function generatePDF(\Codedge\Fpdf\Fpdf\Fpdf $pdf, $id)
     {
         // Fetch the transaction with the given ID, including user and products
-        $transaction = Transaction::with(['user', 'products'])->findOrFail(2);
+        $transaction = Transaction::with(['user', 'products'])->findOrFail($id);
 
         // Create a new PDF document
         $pdf->AddPage();
