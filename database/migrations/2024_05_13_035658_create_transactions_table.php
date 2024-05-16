@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->enum('type', ['issue', 'return']);
-            $table->foreign('user_id')->references('id')->on('employees');
+            $table->foreign('user_id')->references('id')->on('employee');
             $table->timestamps();
         });
     }
