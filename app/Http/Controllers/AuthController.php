@@ -12,6 +12,19 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+
+    public function logout(Request $request){
+
+        $user = $request->user();
+        if (!$user || !$user->currentAccessToken()) {
+            return response()->json(['message' => 'Token not found or invalid'], 401);
+        }
+    
+        $user->currentAccessToken()->delete();
+    
+        return response()->json(['message' => 'Logged out successfully'], 200);
+
+    }
     public function login(Request $request)
     {
 
