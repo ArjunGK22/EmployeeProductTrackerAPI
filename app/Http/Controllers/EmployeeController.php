@@ -29,11 +29,12 @@ class EmployeeController extends Controller
             'date_of_birth' => 'required',
             'role' => 'required',
         ]);
+    
         Employee::create($request->all());
-
+    
         return response()->json(['message' => 'Employee Created Successfully'], 404);
-
     }
+    
 
     /**
      * Display the specified resource.
@@ -42,11 +43,11 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
 
-        if (!$employee) {
-            return response()->json(['message' => 'Employee not found'], 404);
-        }
-    
-        return $employee;
+    if (!$employee) {
+        return response()->json(['message' => 'Employee not found'], 404);
+    }
+
+    return $employee;
     }
 
     /**
@@ -81,12 +82,13 @@ class EmployeeController extends Controller
     {
         $employee = Employee::find($id);
 
-    if (!$employee) {
-        return response()->json(['message' => 'Employee not found'], 404);
-    }
-
-    $employee->delete();
-
-    return response()->json(['message' => 'Employee deleted']);
+        if (!$employee) 
+        {
+            return response()->json(['message' => 'Employee not found'], 404);
+        }
+    
+        $employee->delete();
+    
+        return response()->json(['message' => 'Employee deleted']);
     }
 }
