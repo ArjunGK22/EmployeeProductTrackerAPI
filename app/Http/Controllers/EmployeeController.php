@@ -11,16 +11,13 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-    try {
-        $employee = Employee::all();
-        return response()->json($employee);
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
+    public function index(){
+    $employee = Employee::all();
+
+        // return dd($products);
+
+        return response()->json($employee, 201);
     }
-   }
-    
     /**
      * Store a newly created resource in storage.
      */

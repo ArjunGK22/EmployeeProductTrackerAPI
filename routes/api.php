@@ -34,18 +34,26 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/transactions', [TransactionController::class, 'index']); //show all transactions 
 
 
-        /* Employee */
-        Route::get('/employee', [EmployeeController::class, 'index']);
-        Route::post('/employee', [EmployeeController::class, 'store']);
-        Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
-        Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
-        Route::delete('/employee/{employee}', [EmployeeController::class, 'destroy']);
+        
+        
     });
 
 
 });
+Route::resource('products', ProductController::class);
+Route::resource('employee', EmployeeController::class);
 
 //excel
 Route::get('/employees/export', [EmployeeExportController::class, 'export']);
 Route::get('/export/transactions', [ProdTransExportController::class,'exportTransactions']);
 Route::get('/export/products', [ProdTransExportController::class,'exportProducts']);
+
+
+
+/* Employee
+Route::get('/employee', [EmployeeController::class, 'index']);
+        Route::post('/employee', [EmployeeController::class, 'store']);
+        Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
+        Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
+        Route::delete('/employee/{employee}', [EmployeeController::class, 'destroy']);
+ */
