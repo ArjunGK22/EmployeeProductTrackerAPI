@@ -11,7 +11,7 @@ class EmployeesExport implements FromCollection, WithHeadings, WithTitle
 {
     public function collection()
     {
-        return Employee::select('id', 'name','email','password','phone','date_of_birth', 'role')->get();
+        return Employee::select('id','name','email','password','phone','date_of_birth', 'role')->get();
     }
 
     public function title(): string{
