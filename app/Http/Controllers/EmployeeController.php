@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class EmployeeController extends Controller
 {
@@ -23,15 +24,21 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(),[
             'name' => 'required',
-            'email' => 'required|email|unique:employees',
+            'email' => 'required|email|unique:employees,email,NULL,id',
             'password' => 'required',
             'phone' => 'required',
             'date_of_birth' => 'required',
             'role' => 'required',
+        ], 
+        [
+            'email.unique' => 'The email address is already in use.',
         ]);
-    
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->first()], 422);
+        }
         Employee::create($request->all());
     
         return response()->json(['message' => 'Employee Created Successfully'], 404);
