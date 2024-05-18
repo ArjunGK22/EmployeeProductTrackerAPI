@@ -15,6 +15,6 @@ The Employee Product Tracker API is a Laravel-based application designed to mana
 
 ## Contributors
 
-- **Arjun G K** - [arjungk22@outlook.com]
-- - **Bettina** - []
+- **Arjun G K**
+- **Bettina**
 
