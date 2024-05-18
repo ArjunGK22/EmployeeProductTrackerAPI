@@ -25,4 +25,6 @@ class EmployeesExport implements FromCollection, WithHeadings, WithTitle
         return ['id','name','email','password','phone','date_of_birth', 'role'];
         
     }
+    
 }
+   
