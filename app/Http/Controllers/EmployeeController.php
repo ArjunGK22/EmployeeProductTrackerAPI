@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreEmployeeRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class EmployeeController extends Controller
 {
@@ -22,6 +24,47 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    public function storeBulk(StoreEmployeeRequest $request)
+    {
+        $employeesData = $request->all();
+        $employees = [];
+
+        foreach ($employeesData as $employeeData) {
+            $employees[] = [
+                'name' => $employeeData['name'],
+                'email' => $employeeData['email'],
+                'password' => Hash::make($employeeData['password']),
+                'phone' => $employeeData['phone'],
+                'date_of_birth' => $employeeData['date_of_birth'],
+                'role' => $employeeData['role'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        try {
+            Employee::insert($employees);
+        } catch (\Illuminate\Database\QueryException $e) 
+            {
+            if ($e->errorInfo[1] == 1062) 
+               {
+                $duplicates = [];
+                foreach ($employeesData as $employeeData) {
+                    if (Employee::where('email', $employeeData['email'])->exists()) {
+                        $duplicates[] = $employeeData['email'];
+                    }
+                }
+                throw ValidationException::withMessages([
+                    'email' => 'The email(s) ' . implode(', ', $duplicates) . ' already exist.'
+                ]);
+            } else {
+                throw $e;
+            }
+        }
+
+        return response()->json(['message' => 'Employees inserted successfully'], 201);
+    }
+    /*
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -44,7 +87,7 @@ class EmployeeController extends Controller
         return response()->json(['message' => 'Employee Created Successfully'], 404);
     }
     
-
+   */
     /**
      * Display the specified resource.
      */

@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     
 });
 Route::post('/products/bulk', [ProductController::class, 'storeBulk']);
+Route::post('/employees/bulk', [EmployeeController::class, 'storeBulk']);
 Route::resource('products', ProductController::class);
 Route::resource('employee', EmployeeController::class);
 
