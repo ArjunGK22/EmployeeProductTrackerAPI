@@ -47,6 +47,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
         Route::delete('/employee/{employee}', [EmployeeController::class, 'destroy']);
         Route::post('/employee', [EmployeeController::class, 'store']);
+        Route::resource('employee', EmployeeController::class);
+
+
+        Route::post('/products/bulk', [ProductController::class, 'storeBulk']);
+        Route::post('/employees/bulk', [EmployeeController::class, 'storeBulk']);
 
     });
     
@@ -59,10 +64,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     
 });
 
-Route::post('/products/bulk', [ProductController::class, 'storeBulk']);
-Route::post('/employees/bulk', [EmployeeController::class, 'storeBulk']);
-Route::resource('products', ProductController::class);
-Route::resource('employee', EmployeeController::class);
 
 //excel
 Route::get('/employees/export', [EmployeeExportController::class, 'export']);
