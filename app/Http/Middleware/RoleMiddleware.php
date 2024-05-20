@@ -16,7 +16,8 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, $role)
     {
         $user = Auth::guard('sanctum')->user();
-        // return response()->json(['message' => $role], 403);
+        
+        return response()->json(['message' => $role], 403);
 
 
         if ($user && $user->role === $role) {
