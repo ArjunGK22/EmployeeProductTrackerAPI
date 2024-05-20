@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProductRequest;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -32,6 +33,28 @@ class ProductController extends Controller
     /**
      * Store a new product.
      */
+
+     public function storeBulk(StoreProductRequest $request)
+    {
+        $productsData = $request->all();
+        $products = [];
+
+        foreach ($productsData as $productData) {
+            $products[] = [
+                'productname' => $productData['productname'],
+                'price' => $productData['price'],
+                'quantity' => $productData['quantity'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        Product::insert($products);
+
+        return response()->json(['message' => 'Products inserted successfully'], 201);
+    }
+
+    /*
     public function store(Request $request)
     {
         try {
@@ -64,6 +87,7 @@ class ProductController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
+*/
 
     /**
      * Display the specified resource.
