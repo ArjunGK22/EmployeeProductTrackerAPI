@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 use App\Models\Employee;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreEmployeeRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\StoreEmployeeRequest;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
+
 
 class EmployeeController extends Controller
 {
@@ -64,7 +67,6 @@ class EmployeeController extends Controller
 
         return response()->json(['message' => 'Employees inserted successfully'], 201);
     }
-    /*
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -86,8 +88,6 @@ class EmployeeController extends Controller
     
         return response()->json(['message' => 'Employee Created Successfully'], 404);
     }
-    
-   */
     /**
      * Display the specified resource.
      */
