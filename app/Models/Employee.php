@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Employee extends Model
+
+class Employee extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, HasApiTokens, HasFactory;
 
 
     protected $fillable = [

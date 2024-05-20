@@ -10,6 +10,7 @@ use App\Http\Controllers\PDFGenerationController;
 use App\Http\Controllers\TransactionController;
 
 use App\Http\Controllers\EmployeeExportController;
+use App\Http\Controllers\EmployeeProfileController;
 use App\Http\Controllers\ProdTransExportController;
 
 Route::get('/auth/login', [UserController::class, 'index']);
@@ -50,6 +51,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     });
     
     Route::group(['middleware' => ['role:employee']], function () {
+
+        Route::get('/me', [EmployeeProfileController::class, 'profile']);
+
         
     });
     
