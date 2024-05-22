@@ -6,6 +6,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreEmployeeRequest;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class EmployeeController extends Controller
@@ -61,16 +62,16 @@ class EmployeeController extends Controller
                 throw $e;
             }
         }
-
+        $employeeData['password'] = Hash::make($employeeData['password']);
         return response()->json(['message' => 'Employees inserted successfully'], 201);
     }
-    /*
+    
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
             'name' => 'required',
             'email' => 'required|email|unique:employees,email,NULL,id',
-            'password' => 'required',
+            'password' => 'required|min:8|',
             'phone' => 'required',
             'date_of_birth' => 'required',
             'role' => 'required',
@@ -82,12 +83,21 @@ class EmployeeController extends Controller
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()->first()], 422);
         }
-        Employee::create($request->all());
+        
+
+        $employee = Employee::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'date_of_birth' => $request->date_of_birth,
+            'role' => $request->role,
+        ]);
     
         return response()->json(['message' => 'Employee Created Successfully'], 404);
     }
     
-   */
+   
     /**
      * Display the specified resource.
      */
