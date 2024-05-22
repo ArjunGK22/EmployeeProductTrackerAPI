@@ -20,21 +20,20 @@ Route::get('/unauthorized', [UserController::class, 'index']);
 
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-
+    
     //Logout Route
     Route::post('/auth/logout', [AuthController::class, 'logout']);
-    
     /*
-        ------------------
-        Only Admin Access
-        -----------------
+    ------------------
+    Only Admin Access
+    -----------------
     */
     Route::group(['middleware' => ['role:admin']], function () {
         
         //Generate PDF based on Transactions
         
         //Product Management Endpoints (Admin)
-        Route::resource('products', ProductController::class);
+        Route::apiResource('products', ProductController::class);
 
         //Transaction (Product Issue/Return) Endpoints
         Route::post('/transactions/issue', [ProductIssueReturnController::class, 'issueProducts']); //store new product

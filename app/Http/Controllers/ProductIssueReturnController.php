@@ -36,7 +36,7 @@ class ProductIssueReturnController extends Controller
                     //check if the quantity in inventory is available
                     if ($product->quantity < $productData['quantity']) {
                         DB::rollback();
-                        return response()->json(['message' => "Product Quantity Requested is not available"], 200);
+                        return response()->json(['message' => "Product Quantity Requested is not available ".$productData['product_id']], 200);
                     }
                     //proceed
                     else {
@@ -51,7 +51,7 @@ class ProductIssueReturnController extends Controller
                     $product->decrement('quantity', $productData['quantity']);
                 } else {
                     DB::rollback();
-                    return response()->json(['message' => "Product Id not Found!"], 200);
+                    return response()->json(['message' => "Product Id: " .$productData['product_id']. " not Found! " ], 200);
                 }
             }
 
@@ -70,6 +70,7 @@ class ProductIssueReturnController extends Controller
         DB::beginTransaction();
 
         try {
+
             $transaction = Transaction::create([
                 'user_id' => $request->user_id,
                 'type' => 'return',
@@ -79,18 +80,26 @@ class ProductIssueReturnController extends Controller
                 $product = Product::find($productData['product_id']);
 
                 if ($product) {
-                    Transaction_Product::create([
-                        'transaction_id' => $transaction->id,
-                        'product_id' => $productData['product_id'],
-                        'quantity' => $productData['quantity'],
-                        'total_price' => $productData['quantity'] * $product->price
-                    ]);
+                    if($productData['quantity'] < $product['quantity'] ){
+                        Transaction_Product::create([
+                            'transaction_id' => $transaction->id,
+                            'product_id' => $productData['product_id'],
+                            'quantity' => $productData['quantity'],
+                            'total_price' => $productData['quantity'] * $product->price
+                        ]);
+    
+                        $product->increment('quantity', $productData['quantity']);
 
-                    $product->increment('quantity', $productData['quantity']);
+                    }
+                    else{
+                        return response()->json(['message' => "Products Return Quantity more than Inventory!"], 200);
+
+                    }
+                    
                 } else {
                     // Rollback the transaction if a product is not found
                     DB::rollback();
-                    return response()->json(['message' => "Product ID not Found!"], 404);
+                    return response()->json(['message' => "Product Id: " .$productData['product_id']. " not Found!"], 404);
                 }
             }
 

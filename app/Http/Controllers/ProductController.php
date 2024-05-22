@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
 use Exception;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -20,14 +21,6 @@ class ProductController extends Controller
         // return dd($products);
 
         return response()->json($products, 201);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -55,10 +48,10 @@ class ProductController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         try {
-
+            return "success";
             //validate the request
             $product_validator = Validator::make($request->all(), [
                 'productname' => 'required',
@@ -97,29 +90,22 @@ class ProductController extends Controller
             if ($product)
                 return response()->json($product, 200);
             else
-                return response()->json(['message' => 'No Product Found'], 404);
+                return response()->json(['message' => 'No Product Found' ], 404);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
 
         try {
             //validate the request
+
+            return "Success";
             $product_validator = Validator::make($request->all(), [
                 'productname' => 'string',
                 'price' => 'numeric',
@@ -133,7 +119,7 @@ class ProductController extends Controller
                     'errors' => $product_validator->messages()
                 ], 433);
             } else {
-                $product->update($request->all()); //update the product
+                $product->update($request->all());
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Product Updated Successfully'

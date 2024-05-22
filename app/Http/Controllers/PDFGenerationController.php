@@ -11,26 +11,20 @@ class PDFGenerationController extends Controller
 
     public function generatePDF(\Codedge\Fpdf\Fpdf\Fpdf $pdf, $id)
     {
-        // Fetch the transaction with the given ID, including user and products
         $transaction = Transaction::with(['user', 'products'])->findOrFail($id);
 
-        // Create a new PDF document
+
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', 12);
 
-        // Add header
         $this->addHeader($pdf);
 
-        // Add transaction and user details
         $this->addTransactionDetails($pdf, $transaction);
 
-        // Add products table
         $this->addProductsTable($pdf, $transaction->products);
 
-        // Add footer
         $this->addFooter($pdf);
 
-        // Output the PDF
         $pdf->Output('D', 'transaction_' . $transaction->id . '.pdf');
     }
 

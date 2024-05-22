@@ -18,7 +18,7 @@ class EmployeeController extends Controller
      * Display a listing of the resource.
      */
     public function index(){
-    $employee = Employee::all();
+        $employee = Employee::all();
 
         // return dd($products);
 
