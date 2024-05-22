@@ -14,9 +14,9 @@ class UsersTableSeeder extends Seeder
     public function run(): void
     {
         // Populate the users table with role_id 1
-        User::factory()->count(5)->create(['role_id' => 1]);
+        User::factory()->count(5)->create(['role' => 'employee']);
 
         // Populate the users table with role_id 2
-        User::factory()->count(2)->create(['role_id' => 2]);
+        User::factory()->count(2)->create(['role' => 'admin']);
     }
 }

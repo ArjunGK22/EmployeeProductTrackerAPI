@@ -11,8 +11,12 @@ class UserController extends Controller
 
     public function index(){
 
-        $user = User::all();
+        // $user = User::all();
 
-        return response($user,201);
+        // return response($user,201);
+
+        return response()->json([
+            'message' => "Kindly Login to Continue!"
+        ]);
     }
 }
