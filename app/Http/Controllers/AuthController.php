@@ -47,9 +47,9 @@ class AuthController extends Controller
             ], 433);
         }
         else{
-            $user = User::where('email',$request->email)->first();
+            $user = Employee::where('email',$request->email)->first();
 
-            if (!$user || !Hash::check($request->password,  $user->password)) {
+            if (!$user || !($request->password == $user->password)) {
                 return response([
                     'message' => ['Invalid Credentials']
                 ], 404);

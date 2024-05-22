@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 use App\Models\Employee;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreEmployeeRequest;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\StoreEmployeeRequest;
 use Illuminate\Validation\ValidationException;
 
 class EmployeeController extends Controller
@@ -65,7 +66,7 @@ class EmployeeController extends Controller
         $employeeData['password'] = Hash::make($employeeData['password']);
         return response()->json(['message' => 'Employees inserted successfully'], 201);
     }
-    
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
@@ -96,8 +97,7 @@ class EmployeeController extends Controller
     
         return response()->json(['message' => 'Employee Created Successfully'], 404);
     }
-    
-   
+
     /**
      * Display the specified resource.
      */
