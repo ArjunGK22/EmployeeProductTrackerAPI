@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Imports\EmployeeImport;
+use App\Imports\ProductImport;
 use Illuminate\Validation\ValidationException;
 
 class EmployeeController extends Controller
@@ -152,5 +154,22 @@ class EmployeeController extends Controller
         $employee->delete();
     
         return response()->json(['message' => 'Employee deleted']);
+    }
+
+    //not working
+    public function import(Request $request){
+
+        // $uplpaded_file = $request->file->store('public/uploads');
+        // $request->validate([
+        //     'file' => 'required|mimes:xls,xlsx'
+        // ]);
+
+        // $file = $request->file('file');
+
+        Excel::import(new ProductImport(), $request->file('file'));
+
+        return response()->json(['message' => 'Employees Uploaded Sucessfully']);
+
+
     }
 }

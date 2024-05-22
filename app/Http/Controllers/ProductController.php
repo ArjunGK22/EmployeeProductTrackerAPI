@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProductRequest;
 use Exception;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreProductRequest;
+use App\Imports\ProductImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreProductRequest;
 
 class ProductController extends Controller
 {
@@ -48,10 +50,10 @@ class ProductController extends Controller
     }
 
 
-    public function store(ProductRequest $request)
+    public function store(Request $request)
     {
         try {
-            return "success";
+            // return "success";
             //validate the request
             $product_validator = Validator::make($request->all(), [
                 'productname' => 'required',
@@ -79,6 +81,7 @@ class ProductController extends Controller
 
             return response()->json(['message' => $e->getMessage()], 500);
         }
+    }
 
     /**
      * Display the specified resource.
@@ -132,9 +135,17 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $product) //need to clarify the doubt
     {
         try {
+            if(!$product){
+
+                return response()->json([
+                    'status' => 'Failed',
+                    'message' => 'No Product Found'
+                ], 201);
+
+            }
             $product->delete();
 
             return response()->json([
@@ -144,5 +155,21 @@ class ProductController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => "Error Deleting Product! Please try later"], 500);
         }
+    }
+
+    public function import(Request $request){
+
+        // $uplpaded_file = $request->file->store('public/uploads');
+        // $request->validate([
+        //     'file' => 'required|mimes:xls,xlsx'
+        // ]);
+
+        // $file = $request->file('file');
+
+        Excel::import(new ProductImport(), $request->file('file'));
+
+        return response()->json(['message' => 'Products Uploaded Sucessfully']);
+
+
     }
 }
