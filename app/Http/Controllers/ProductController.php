@@ -79,7 +79,6 @@ class ProductController extends Controller
 
             return response()->json(['message' => $e->getMessage()], 500);
         }
-    }
 
     /**
      * Display the specified resource.
