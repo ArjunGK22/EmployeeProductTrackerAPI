@@ -33,12 +33,12 @@ class AuthController extends Controller
     public function login(Request $request)
     {
 
+
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        //
         if ($validator->fails()) {
 
             return response()->json([
@@ -47,9 +47,11 @@ class AuthController extends Controller
             ], 433);
         }
         else{
-            $user = Employee::where('email',$request->email)->first();
+            $user = Employee::where('email', $request->email)->first();
 
-            if (!$user || !($request->password == $user->password)) {
+            // return $user;
+
+            if (!$user || !Hash::check($request->password, $user->password)) {
                 return response([
                     'message' => ['Invalid Credentials']
                 ], 404);

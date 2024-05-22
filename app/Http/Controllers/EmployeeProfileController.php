@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use Illuminate\Http\Request;
 
 class EmployeeProfileController extends Controller
@@ -13,5 +14,11 @@ class EmployeeProfileController extends Controller
 
         return $profile;
 
+    }
+
+    public function return_transactions(){
+
+        
+        $user_transactions = Employee::with('transactions')->first();
     }
 }

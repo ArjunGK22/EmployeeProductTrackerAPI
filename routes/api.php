@@ -14,8 +14,7 @@ use App\Http\Controllers\EmployeeProfileController;
 use App\Http\Controllers\ProdTransExportController;
 
 Route::get('/auth/login', [UserController::class, 'index']);
-Route::post('/auth/login', [AuthController::class, 'login']); //User Login (admin / employee)
-Route::get('/generatePdf/{id}', [PDFGenerationController::class, 'generatePDF']);
+Route::post('/auth/login', [AuthController::class, 'login']); 
 Route::get('/unauthorized', [UserController::class, 'index']);
 
 
@@ -41,12 +40,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('/transactions', [TransactionController::class, 'index']); //show all transactions 
 
         /* Employee */
-        Route::get('/employee', [EmployeeController::class, 'index']);
-        Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
-        Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
-        Route::delete('/employee/{employee}', [EmployeeController::class, 'destroy']);
-        Route::post('/employee', [EmployeeController::class, 'store']);
-        Route::resource('employee', EmployeeController::class);
+        Route::apiResource('employee', EmployeeController::class);
+
+        //Employee Import Controller
+        Route::post('/employees/import', [EmployeeController::class, 'import']);
+        Route::post('/products/import', [ProductController::class, 'import']);
+
 
 
         Route::post('/products/bulk', [ProductController::class, 'storeBulk']);
@@ -56,7 +55,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     
     Route::group(['middleware' => ['role:employee']], function () {
         
-        Route::get('/me', [EmployeeProfileController::class, 'profile']);
+        Route::get('/profile', [EmployeeProfileController::class, 'profile']);
+        Route::get('/profile/transactions', [EmployeeProfileController::class, 'profile']);
         
         
     });
@@ -64,17 +64,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 
-//excel
+//pdf generation
+Route::get('/generatePdf/{id}', [PDFGenerationController::class, 'generatePDF']);
+
+
+//excel generation
 Route::get('/employees/export', [EmployeeExportController::class, 'export']);
 Route::get('/export/transactions', [ProdTransExportController::class,'exportTransactions']);
 Route::get('/export/products', [ProdTransExportController::class,'exportProducts']);
-
-
-
-/* Employee
-Route::get('/employee', [EmployeeController::class, 'index']);
-        Route::post('/employee', [EmployeeController::class, 'store']);
-        Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
-        Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
-        Route::delete('/employee/{employee}', [EmployeeController::class, 'destroy']);
- */
