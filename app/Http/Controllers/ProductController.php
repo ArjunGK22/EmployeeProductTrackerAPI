@@ -54,7 +54,7 @@ class ProductController extends Controller
         return response()->json(['message' => 'Products inserted successfully'], 201);
     }
 
-    /*
+    
     public function store(Request $request)
     {
         try {
@@ -87,7 +87,7 @@ class ProductController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
-*/
+
 
     /**
      * Display the specified resource.
