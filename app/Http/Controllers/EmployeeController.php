@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 use App\Models\Employee;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Imports\EmployeeImport;
 use App\Imports\ProductImport;
+use App\Imports\EmployeeImport;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StoreEmployeeRequest;
 use Illuminate\Validation\ValidationException;
 
 class EmployeeController extends Controller
@@ -71,8 +72,10 @@ class EmployeeController extends Controller
 
     public function store(Request $request)
     {
+        // Log::info($request->all());
+        return $request->all();
         $validator = Validator::make($request->all(),[
-            'name' => 'required',
+            'name' => 'required|string',
             'email' => 'required|email|unique:employees,email,NULL,id',
             'password' => 'required|min:8|',
             'phone' => 'required',
@@ -94,10 +97,10 @@ class EmployeeController extends Controller
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'date_of_birth' => $request->date_of_birth,
-            'role' => $request->role,
+            'role' => $request->role
         ]);
     
-        return response()->json(['message' => 'Employee Created Successfully'], 404);
+        return response()->json(['message' => 'Employee Created Successfully'], 201);
     }
 
     /**

@@ -38,9 +38,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('/transactions/issue', [ProductIssueReturnController::class, 'issueProducts']); //store new product
         Route::post('/transactions/return', [ProductIssueReturnController::class, 'returnProducts']); //return product
         Route::get('/transactions', [TransactionController::class, 'index']); //show all transactions 
+        Route::get('/transactions/{id}', [ProductIssueReturnController::class, 'index']); //show particular transactions 
 
         /* Employee */
-        Route::apiResource('employee', EmployeeController::class);
+        // Route::apiResource('employee', EmployeeController::class);
+        Route::get('/employee', [EmployeeController::class, 'index']);
+        Route::get('/employee/{employee}', [EmployeeController::class, 'show']);
+        Route::put('/employee/{employee}', [EmployeeController::class, 'update']);
+        Route::delete('/employee/{employee}', [EmployeeController::class, 'destroy']);
+        Route::post('/employee', [EmployeeController::class, 'store']);
 
         //Employee Import Controller
         Route::post('/employees/import', [EmployeeController::class, 'import']);
@@ -56,7 +62,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['middleware' => ['role:employee']], function () {
         
         Route::get('/profile', [EmployeeProfileController::class, 'profile']);
-        Route::get('/profile/transactions', [EmployeeProfileController::class, 'profile']);
+        Route::get('/profile/transactions', [EmployeeProfileController::class, 'return_transactions']);
         
         
     });

@@ -10,6 +10,7 @@ class Transaction extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $table = 'issue_return_transactions';
 
     //doubt
     public function user()

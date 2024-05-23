@@ -19,6 +19,6 @@ class EmployeeProfileController extends Controller
     public function return_transactions(){
 
         
-        $user_transactions = Employee::with('transactions')->first();
+        $user_transactions = Employee::with('transactions')->first(1);
     }
 }
