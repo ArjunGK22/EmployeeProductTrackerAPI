@@ -15,7 +15,24 @@ class ProductIssueReturnController extends Controller
     {
         $transaction = Transaction::with(['user', 'products'])->findOrFail($id);
 
-        return $transaction;
+        // return $transaction;
+
+        $products = $transaction->products->map(function($product) {
+            return [
+                'name' => $product->productname,
+                'quantity' => $product->pivot->quantity,
+                'total_price' => $product->pivot->total_price,
+            ];
+        });
+
+        return response()->json([
+            "transaction_id" => $transaction->id,
+            "issued_at" =>  $transaction->created_at->format('d M Y'),
+            "user_name" => $transaction->user->name,
+            "email" => $transaction->user->email,
+            "phone" => $transaction->user->phone,
+            "products" => $products
+        ]);
     }
 
     public function issueProducts(Request $request)
@@ -36,7 +53,7 @@ class ProductIssueReturnController extends Controller
                     //check if the quantity in inventory is available
                     if ($product->quantity < $productData['quantity']) {
                         DB::rollback();
-                        return response()->json(['message' => "Product Quantity Requested is not available ".$productData['product_id']], 200);
+                        return response()->json(['message' => "Product:" . $productData['product_id'] . " Quantity Requested is not available"], 200);
                     }
                     //proceed
                     else {

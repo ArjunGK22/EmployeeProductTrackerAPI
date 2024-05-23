@@ -107,7 +107,7 @@ class ProductController extends Controller
         try {
             //validate the request
 
-            return "Success";
+            // return "Success";
             $product_validator = Validator::make($request->all(), [
                 'productname' => 'string',
                 'price' => 'numeric',
@@ -135,7 +135,7 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product) //need to clarify the doubt
+    public function destroy(Product $product)
     {
         try {
             if(!$product){
